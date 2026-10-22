@@ -1,5 +1,9 @@
 function PageNotFound() {
-  return <div>Ooops! Page Not Found!</div>;
+  return (
+    <div>
+      <h1>Page not found 😢</h1>
+    </div>
+  );
 }
 
 export default PageNotFound;
