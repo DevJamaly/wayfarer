@@ -5,8 +5,8 @@ function Homepage() {
   return (
     <div>
       <PageNav />
-      <h1>WayFarer</h1>
-      <Link to={'/pricing'}>Pricing</Link>
+      <h1 className="test">WayFarer</h1>
+      <Link to={'/app'}>Go to the App</Link>
       {/* <a href="/pricing">Pricing</a> */}
     </div>
   );
