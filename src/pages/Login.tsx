@@ -32,7 +32,7 @@ function Login() {
         </div>
 
         <div>
-          <button>Login</button>
+          <button className={styles.ctaLink}>Login</button>
         </div>
       </form>
     </main>
