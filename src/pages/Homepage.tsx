@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import styles from './Homepage.module.css';
 import PageNav from '../components/PageNav';
 
