@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router';
 import { useEffect, useState } from 'react';
 
 import Product from './pages/Product';
@@ -59,7 +59,7 @@ function App() {
         <Route path="pricing" element={<Pricing />} />
         <Route path="login" element={<Login />} />
         <Route path="app" element={<AppLayout />}>
-          <Route index element={<p>List of cities</p>} />
+          <Route index element={<Navigate replace to={`cities`} />} />
           <Route
             path="cities"
             element={<CityList cities={cities} isLoading={isLoading} />}
