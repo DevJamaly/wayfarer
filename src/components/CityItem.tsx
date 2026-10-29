@@ -12,10 +12,13 @@ const formatDate = (date: string) =>
   }).format(new Date(date));
 
 function CityItem({ city }: { city: CityData }) {
-  const { cityName, country, countryCode, date, id } = city;
+  const { cityName, country, countryCode, date, id, position } = city;
   return (
     <li>
-      <Link className={styles.cityItem} to={`${id}`}>
+      <Link
+        className={styles.cityItem}
+        to={`${id}?lat=${position.lat}&lng=${position.lng}`}
+      >
         <span className={styles.flag}>
           <Flag countryCode={countryCode} country={country} />
         </span>
