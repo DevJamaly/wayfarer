@@ -3,6 +3,8 @@ import { createContext, useContext, useEffect, useState } from 'react';
 interface CitiesContextValue {
   cities: CityData[];
   isLoading: boolean;
+  getCity: (id: string) => void;
+  currentCity: CityData;
 }
 
 const CitiesContext = createContext<CitiesContextValue | null>(null);
@@ -27,6 +29,7 @@ export interface CityData {
 export function CitiesProvider({ children }: { children: React.ReactNode }) {
   const [cities, setCities] = useState<CityData[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [currentCity, setCurrentCity] = useState<CityData>({} as CityData);
 
   useEffect(() => {
     async function fetchCities() {
@@ -46,11 +49,27 @@ export function CitiesProvider({ children }: { children: React.ReactNode }) {
     fetchCities();
   }, []);
 
+  async function getCity(id: string) {
+    try {
+      setIsLoading(true);
+      const res = await fetch(`${BASE_URL}/cities/${id}`);
+      if (!res.ok) throw new Error(`Error ${res.status} : ${res.statusText}`);
+      const data: CityData = await res.json();
+      setCurrentCity(data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   return (
     <CitiesContext
       value={{
         cities,
         isLoading,
+        getCity,
+        currentCity,
       }}
     >
       {children}
