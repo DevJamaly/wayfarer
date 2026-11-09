@@ -1,13 +1,8 @@
-import type { CityData } from '../App';
+import { useCitiesContext, type CityData } from '../contexts/CitiesContext';
 import CountryItem from './CountryItem';
 import styles from './CountryList.module.css';
 import Message from './Message';
 import Spinner from './Spinner';
-
-interface CountryListProps {
-  cities: CityData[];
-  isLoading: boolean;
-}
 
 export interface CountryData {
   country: string;
@@ -27,7 +22,9 @@ function getUniqueCountries(cities: CityData[]): CountryData[] {
   );
 }
 
-function CountryList({ cities, isLoading }: CountryListProps) {
+function CountryList() {
+  const { isLoading, cities } = useCitiesContext();
+
   if (isLoading) return <Spinner />;
   if (!cities.length) return <Message message={EMPTY_MSG} />;
 
