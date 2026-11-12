@@ -11,7 +11,7 @@ const CitiesContext = createContext<CitiesContextValue | null>(null);
 
 const BASE_URL = 'http://localhost:8000';
 
-interface PositionData {
+export interface PositionData {
   lat: number;
   lng: number;
 }
