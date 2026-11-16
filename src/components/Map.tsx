@@ -14,6 +14,7 @@ import { useCitiesContext, type PositionData } from '../contexts/CitiesContext';
 import Flag from './Flag';
 import { useGeolocation } from '../hooks/useGeolocation';
 import Button from './Button';
+import { useUrlPosition } from '../hooks/useUrlPosition';
 
 function Map() {
   const { cities } = useCitiesContext();
@@ -23,10 +24,7 @@ function Map() {
     getPosition,
   } = useGeolocation();
 
-  const [searchParams, setSearchParams] = useSearchParams();
-  const lat = Number(searchParams.get('lat'));
-  const lng = Number(searchParams.get('lng'));
-  const hasPos = Boolean(lat && lng);
+  const { position, setSearchParams } = useUrlPosition();
 
   const moveToGeoPos = useEffectEvent((pos: PositionData) => {
     setSearchParams({ lat: String(pos.lat), lng: String(pos.lng) });
@@ -44,7 +42,7 @@ function Map() {
       </Button>
       <MapContainer
         className={styles.map}
-        center={hasPos ? [lat, lng] : [40, 0]}
+        center={position ? position : [40, 0]}
         zoom={8}
         scrollWheelZoom={true}
       >
@@ -62,7 +60,7 @@ function Map() {
             </Popup>
           </Marker>
         ))}
-        {hasPos && <ChangeCenter lat={lat} lng={lng} />}
+        {position && <ChangeCenter lat={position.lat} lng={position.lng} />}
         <DetectClick />
       </MapContainer>
     </div>
