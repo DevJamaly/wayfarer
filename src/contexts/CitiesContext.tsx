@@ -5,6 +5,7 @@ interface CitiesContextValue {
   isLoading: boolean;
   getCity: (id: string) => void;
   createCity: (newCity: CityDataRaw) => void;
+  deleteCity: (id: number) => void;
   currentCity: CityData;
 }
 
@@ -79,7 +80,22 @@ export function CitiesProvider({ children }: { children: React.ReactNode }) {
       });
       if (!res.ok) throw new Error(`Error ${res.status} : ${res.statusText}`);
       const data: CityData = await res.json();
-      setCities([...cities, data]);
+      setCities(cities => [...cities, data]);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  async function deleteCity(id: number) {
+    try {
+      setIsLoading(true);
+      const res = await fetch(`${BASE_URL}/cities/${id}`, {
+        method: 'DELETE',
+      });
+      if (!res.ok) throw new Error(`Error deleting city with ID: ${id}`);
+      setCities(cities => cities.filter(c => c.id !== id));
     } catch (err) {
       console.error(err);
     } finally {
@@ -95,6 +111,7 @@ export function CitiesProvider({ children }: { children: React.ReactNode }) {
         getCity,
         currentCity,
         createCity,
+        deleteCity,
       }}
     >
       {children}

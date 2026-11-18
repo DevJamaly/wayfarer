@@ -2,6 +2,7 @@ import { Link } from 'react-router';
 import styles from './CityItem.module.css';
 import Flag from './Flag';
 import { useCitiesContext, type CityData } from '../contexts/CitiesContext';
+import type { MouseEvent } from 'react';
 
 const formatDate = (date: string) =>
   new Intl.DateTimeFormat('en', {
@@ -12,8 +13,14 @@ const formatDate = (date: string) =>
   }).format(new Date(date));
 
 function CityItem({ city }: { city: CityData }) {
-  const { currentCity } = useCitiesContext();
+  const { currentCity, deleteCity } = useCitiesContext();
   const { cityName, country, countryCode, date, id, position } = city;
+
+  function handleDeleteClick(e: MouseEvent) {
+    e.preventDefault();
+    deleteCity(id);
+  }
+
   return (
     <li>
       <Link
@@ -25,7 +32,9 @@ function CityItem({ city }: { city: CityData }) {
         </span>
         <h3 className={styles.name}>{cityName}</h3>
         <time className={styles.date}>{formatDate(date)}</time>
-        <button className={styles.deleteBtn}>&times;</button>
+        <button className={styles.deleteBtn} onClick={handleDeleteClick}>
+          &times;
+        </button>
       </Link>
     </li>
   );

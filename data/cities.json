@@ -59,18 +59,6 @@
         "lng": 2.1686
       },
       "id": 178067516
-    },
-    {
-      "cityName": "Paris",
-      "country": "France",
-      "countryCode": "FR",
-      "date": "2026-11-18",
-      "notes": "Great time by the sea",
-      "position": {
-        "lat": 48.85463513865946,
-        "lng": 2.34884262084961
-      },
-      "id": 739303854
     }
   ]
 }
