@@ -4,6 +4,7 @@ interface CitiesContextValue {
   cities: CityData[];
   isLoading: boolean;
   getCity: (id: string) => void;
+  createCity: (newCity: CityDataRaw) => void;
   currentCity: CityData;
 }
 
@@ -16,13 +17,16 @@ export interface PositionData {
   lng: number;
 }
 
-export interface CityData {
+export interface CityDataRaw {
   cityName: string;
   country: string;
   countryCode: string;
   date: string;
   notes: string;
   position: PositionData;
+}
+
+export interface CityData extends CityDataRaw {
   id: number;
 }
 
@@ -63,6 +67,26 @@ export function CitiesProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
+  async function createCity(newCity: CityDataRaw) {
+    try {
+      setIsLoading(true);
+      const res = await fetch(`${BASE_URL}/cities`, {
+        method: 'POST',
+        body: JSON.stringify(newCity),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      if (!res.ok) throw new Error(`Error ${res.status} : ${res.statusText}`);
+      const data: CityData = await res.json();
+      setCities([...cities, data]);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   return (
     <CitiesContext
       value={{
@@ -70,6 +94,7 @@ export function CitiesProvider({ children }: { children: React.ReactNode }) {
         isLoading,
         getCity,
         currentCity,
+        createCity,
       }}
     >
       {children}
