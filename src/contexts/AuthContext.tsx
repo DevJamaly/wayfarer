@@ -52,6 +52,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   );
 
   function login(email: string, password: string) {
+    console.log(`CALLED LOGIN WITH -- EMAIL: ${email} | PASS: ${password}`);
     if (email === FAKE_USER.email && password === FAKE_USER.password)
       dispatch({ type: 'login', payload: FAKE_USER });
   }
